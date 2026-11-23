@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fieldwork — From problem to plan.</title>
+    <meta name="description" content="An AI workspace for forward deployed engineers. Explore an interactive, synthetic workflow from discovery and evidence to reviewed implementation artifacts.">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="canonical" href="https://edge.fncai.org/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Fieldwork — From problem to plan.">
+    <meta property="og:description" content="An AI workspace for forward deployed engineers. AI assists. Engineers decide.">
+    <meta property="og:url" content="https://edge.fncai.org/">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/styles.css">
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#overview">Skip to content</a>
+    <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <symbol id="i-mark" viewBox="0 0 24 24"><path d="M4 21V3h16M4 9h12M4 15h8"/></symbol>
+        <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+        <symbol id="i-up-right" viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12"/></symbol>
+        <symbol id="i-discover" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M7.5 10.5h6m-3-3v6"/></symbol>
+        <symbol id="i-model" viewBox="0 0 24 24"><path d="M3 3h7v6H3zm11 12h7v6h-7zM6.5 9v9H14m3.5-9v6M14 3h7v6h-7zM10 6h4"/></symbol>
+        <symbol id="i-build" viewBox="0 0 24 24"><path d="m8 6-6 6 6 6m8-12 6 6-6 6M14 3l-4 18"/></symbol>
+        <symbol id="i-validate" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/><path d="M21 12v8H3V3h13"/></symbol>
+        <symbol id="i-file" viewBox="0 0 24 24"><path d="M5 2h9l5 5v15H5zM14 2v6h5M8 12h8m-8 4h6"/></symbol>
+        <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+        <symbol id="i-lock" viewBox="0 0 24 24"><path d="M5 10h14v11H5zM8 10V6a4 4 0 0 1 8 0v4m-4 5v2"/></symbol>
+        <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6"/></symbol>
+        <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+        <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
+        <symbol id="i-play" viewBox="0 0 24 24"><path d="m9 5 10 7-10 7z"/></symbol>
+      </defs>
+    </svg>
+
+    <header class="site-header">
+      <div class="site-header-inner page-width">
+        <a class="brand" href="#overview" aria-label="Fieldwork home"><svg class="brand-mark" aria-hidden="true"><use href="#i-mark"/></svg><span>Fieldwork</span></a>
+        <nav class="site-navigation" aria-label="Main navigation">
+          <a href="#overview" class="nav-active">Overview</a>
+          <a href="#workflow">Workflow</a>
+          <a href="#demo">Demo <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg></a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero page-width" id="overview" aria-labelledby="hero-title">
+        <div class="eyebrow hero-eyebrow"><span class="blue-square"></span> FORWARD DEPLOYED ENGINEERING</div>
+        <h1 id="hero-title">From problem to plan<span class="blue-period">.</span></h1>
+        <div class="hero-bottom">
+          <p>An AI workspace for forward deployed engineers.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#workflow">Explore workflow <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="button button-secondary" id="watch-demo" href="#video-demo" hidden>Watch demo <svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="preview-section page-width" id="demo" aria-labelledby="preview-title" tabindex="-1">
+        <div class="section-label-row">
+          <h2 class="eyebrow" id="preview-title">THE WORKSPACE</h2>
+          <span class="preview-label"><span class="status-dot"></span> Interactive guided preview</span>
+        </div>
+
+        <div class="workspace">
+          <div class="workspace-topbar">
+            <div class="workspace-product"><svg class="icon" aria-hidden="true"><use href="#i-mark"/></svg> fieldwork <span class="workspace-divider">/</span><span class="workspace-topbar-description">Engineering workspace</span></div>
+            <span class="synthetic-badge">SYNTHETIC EXAMPLE</span>
+          </div>
+          <div class="workspace-layout">
+            <aside class="workspace-sidebar" aria-label="Engagement navigation">
+              <div class="engagement-identity"><span class="engagement-avatar">N<span>↗</span></span><div><strong>Northstar Electric</strong><span>Maintenance operations</span></div></div>
+              <div class="sidebar-caption">ENGAGEMENT</div>
+              <div class="sidebar-stages" role="group" aria-label="Preview stage">
+                <button class="sidebar-stage is-selected" data-stage="discover" aria-pressed="true"><svg class="icon" aria-hidden="true"><use href="#i-discover"/></svg><span>Discover</span><span class="sidebar-stage-number">01</span></button>
+                <button class="sidebar-stage" data-stage="model" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-model"/></svg><span>Model</span><span class="sidebar-stage-number">02</span></button>
+                <button class="sidebar-stage" data-stage="build" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-build"/></svg><span>Build</span><span class="sidebar-stage-number">03</span></button>
+                <button class="sidebar-stage" data-stage="validate" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-validate"/></svg><span>Validate</span><span class="sidebar-stage-number">04</span></button>
+              </div>
+              <div class="sidebar-bottom"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg><span>Engineer approval<br>at every decision.</span></div>
+            </aside>
+            <div class="workspace-main">
+              <div class="workspace-heading">
+                <div><p class="workspace-breadcrumb">Northstar Electric <span>/</span> Maintenance operations</p><h3>Maintenance delay analysis</h3></div>
+                <span class="engagement-id">ENG—024</span>
+              </div>
+              <div id="stage-content"></div>
+              <noscript><div class="noscript-message">This synthetic example reviews eight maintenance work items. Excluding 44 hours of authorized holds changes mean duration from 22.5 to 17 hours. Enable JavaScript to explore the evidence and review the definition.</div></noscript>
+            </div>
+          </div>
+          <div class="workspace-footer"><span><span class="status-dot"></span> Fixed synthetic data. No live AI or production connection.</span><button class="text-button" id="reset-preview">Reset preview <svg class="icon" aria-hidden="true"><use href="#i-reset"/></svg></button></div>
+        </div>
+        <div class="preview-caption"><span>Evidence. Decisions. Reviewable outputs.</span></div>
+      </section>
+
+      <section class="workflow-section page-width" id="workflow" aria-labelledby="workflow-title">
+        <div class="section-label-row"><h2 class="eyebrow" id="workflow-title">THE WORKFLOW</h2><span class="workflow-instruction">Select a stage to explore <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg></span></div>
+        <div class="workflow-grid" role="group" aria-label="Explore workflow stages">
+          <button class="workflow-card is-selected" data-stage="discover" data-scroll="true" aria-pressed="true"><span class="workflow-card-top"><span class="stage-number">01</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span><span class="workflow-name">Discover</span><span class="workflow-description">Find the signal in source evidence.</span><span class="mini-visual mini-table" aria-hidden="true"><span><i></i><i></i><i></i></span><span><i></i><i></i><i></i></span><span><i></i><i></i><i></i></span></span></button>
+          <button class="workflow-card" data-stage="model" data-scroll="true" aria-pressed="false"><span class="workflow-card-top"><span class="stage-number">02</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span><span class="workflow-name">Model</span><span class="workflow-description">Make the technical decisions explicit.</span><span class="mini-visual mini-model" aria-hidden="true"><i></i><b></b><i></i><b></b><i></i></span></button>
+          <button class="workflow-card" data-stage="build" data-scroll="true" aria-pressed="false"><span class="workflow-card-top"><span class="stage-number">03</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span><span class="workflow-name">Build</span><span class="workflow-description">Generate artifacts for engineer review.</span><span class="mini-visual mini-code" aria-hidden="true"><span><em>SELECT</em> work_item_id,</span><span>&nbsp; duration_hours</span><span><em>FROM</em> maintenance;</span></span></button>
+          <button class="workflow-card" data-stage="validate" data-scroll="true" aria-pressed="false"><span class="workflow-card-top"><span class="stage-number">04</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span><span class="workflow-name">Validate</span><span class="workflow-description">Check the work. Approve the outputs.</span><span class="mini-visual mini-checks" aria-hidden="true"><span>✓ <i></i> <small>PASS</small></span><span>✓ <i></i> <small>PASS</small></span><span>✓ <i></i> <small>PASS</small></span></span></button>
+        </div>
+      </section>
+
+      <section class="human-section page-width" aria-labelledby="human-title">
+        <div><h2 id="human-title">AI assists. Engineers decide.</h2></div>
+        <button class="human-action" id="open-example"><span>Review example</span><svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg></button>
+      </section>
+
+      <section class="video-section page-width" id="video-demo" aria-labelledby="video-title" hidden>
+        <h2 id="video-title">Fieldwork, in practice.</h2>
+        <video id="demo-video" controls preload="none" playsinline aria-label="Narrated Fieldwork product demonstration"></video>
+        <p id="video-transcript"></p>
+      </section>
+    </main>
+
+    <footer class="site-footer page-width"><a class="footer-brand" href="#overview">Fieldwork</a><span>Built for forward deployed engineering.</span></footer>
+    <p class="sr-only" id="announcement" role="status" aria-live="polite" aria-atomic="true"></p>
+
+    <dialog class="review-dialog" id="review-dialog" aria-labelledby="review-title" aria-describedby="review-description">
+      <form id="review-form">
+        <div class="dialog-header"><span class="eyebrow">ENGINEER REVIEW · SYNTHETIC EXAMPLE</span><button class="icon-button" type="button" data-close-dialog aria-label="Close definition review"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+        <h2 id="review-title">What counts as maintenance time?</h2>
+        <p id="review-description">The initial metric includes authorized holds. Review the source definition before changing the calculation.</p>
+        <blockquote><span class="evidence-type">OBSERVATION · OPERATING PROCEDURE §4.2</span>“An authorized hold pauses active maintenance while a work item awaits a permit, isolation, or approved access.”<cite>Synthetic operating procedure · NE-MNT-004</cite></blockquote>
+        <fieldset><legend>Duration definition</legend><label class="radio-option"><input type="radio" name="definition" value="elapsed"><span><strong>Total elapsed time</strong><small>Includes authorized holds · 22.5 h mean</small></span></label><label class="radio-option"><input type="radio" name="definition" value="active" required><span><strong>Active maintenance time</strong><small>Excludes authorized holds · 17 h mean</small></span></label></fieldset>
+        <label class="review-note-label" for="review-note">Engineer rationale <span>(required)</span></label>
+        <textarea id="review-note" name="rationale" rows="2" maxlength="240" required>Authorized holds pause active maintenance. Exclude documented hold time from this metric.</textarea>
+        <p class="dialog-note">Your choice updates this guided example only. No SQL is executed.</p>
+        <div class="dialog-actions"><button type="button" class="button button-secondary" data-close-dialog>Cancel</button><button type="submit" class="button button-primary">Approve definition <svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></button></div>
+      </form>
+    </dialog>
+  </body>
+</html>
