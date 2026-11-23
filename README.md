@@ -22,7 +22,13 @@ The production preview serves `dist/` at **http://localhost:4173**. The local se
 
 ## What the demonstration does
 
-Scroll through the continuous workspace to move from Discover to Model, Build, and Validate. The stage menu stays visible and highlights the section at the reader's position. Clicking a menu item jumps to that section; keyboard navigation and reduced motion preferences are supported. Scrolling does not change review decisions or approve anything.
+The main demonstration is a pinned, scroll-controlled sequence of eight scenes: problem, evidence, initial metric, scripted engineer review, revised metric, model, artifacts, and validation. Scrolling scrubs each scene's reveals and metric animation, then holds the finished scene for reading before the next scene enters. Scrolling backward rewinds the sequence. Native proximity snapping settles at completed scenes; the wheel and touch gestures are not intercepted.
+
+The stage menu follows the sequence. Scene buttons, previous/next controls, and Left/Right arrow keys let visitors jump directly. With reduced motion enabled, the long scroll track and pinning are removed; controls present the same completed scenes one at a time.
+
+Each scene uses 128 viewport-height units of scroll distance, with an additional reading hold at the end of Discover, Model, Build, and Validate. Timing and snap positions share the same configuration in `story-timeline.js`. **Scroll to demo** moves directly to the start of the pinned sequence.
+
+**Explore yourself** opens the separate interactive workspace. The walkthrough uses labeled scripted engineer decisions and never changes the visitor's review or approval state. In the hands-on workspace:
 
 1. **Discover:** inspect eight fictional Northstar Electric work items and their supporting evidence. The initial duration is 180 hours / 8 items = **22.5 hours**.
 2. **Engineer review:** open **Review metric definition**, review the fictional operating procedure, choose active maintenance time, and approve with a rationale. The corrected definition excludes 44 hours of documented authorized holds: (180 − 44) / 8 = **17 hours**. Engineers can also explicitly retain the elapsed-time definition.
@@ -120,10 +126,12 @@ Local media is simplest. If hosting media elsewhere, use HTTPS and update `media
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | Page structure, continuous workflow sections, definition review dialog, optional video slot |
+| `index.html` | Pinned demo shell, optional hands-on workspace, definition review dialog, video slot |
 | `styles.css` | Responsive layout, technical interface, focus states, reduced motion support |
 | `scenario.js` | Public synthetic records, duration calculations, SQL and plan generation |
-| `app.js` | Scroll position tracking, stage navigation, evidence inspection, engineer review, artifact download, approval |
+| `app.js` | Hands-on stage navigation, evidence inspection, engineer review, artifact download, approval |
+| `story.js` | Pinned scene rendering, scroll animation, snapping navigation, and reduced-motion controls |
+| `story-timeline.js` | Deterministic scene sequence, progress mapping, and revised-metric animation |
 | `config.js` | Optional real video configuration |
 | `assets/` | Blank favicon for text-only branding and self-hosted fonts with SIL Open Font Licenses |
 | `scripts/` | Local server and allowlisted static build |
@@ -134,14 +142,14 @@ IBM Plex Sans and IBM Plex Mono are distributed under SIL OFL 1.1; see `assets/f
 
 ## Verification
 
-`npm test` verifies the eight records, both metric definitions, the SQL/plan correction, and both root-domain and GitHub project-path builds.
+`npm test` verifies the eight records, both metric definitions, SQL/plan correction, root-domain and GitHub project-path builds, scene handoffs, and reversible timeline calculations.
 
 The finished site was checked in headless Chrome using temporary Playwright and axe-core tools outside the project:
 
-- All four stages checked for horizontal overflow in both initial and corrected states at 320, 360, 390, 700, 768, 900, 1000, 1024, 1200, 1440, 1600, 1920, and 2560 pixels.
-- Scroll tracking checked in both directions, including mouse wheel input, sticky desktop/mobile menus, keyboard jumps, and preserving keyboard focus during ordinary scrolling.
-- All eight evidence records, the 22.5 → 17 hour correction, model/SQL/plan propagation, both artifact downloads, explicit output approval, approval invalidation, and reset verified.
-- Keyboard modal focus, Escape, focus restoration, and reduced motion checked.
-- No automated WCAG 2 A/AA or WCAG 2.1 AA violations across the continuous workflow at 390, 1440, and 2560 pixels. Automated checks do not replace a full manual accessibility audit.
+- All eight pinned scenes checked for clipping and horizontal overflow at 320×568, 360×640, 390×844, 700×900, 768×1024, 1024×768, 1440×900, 1920×1080, and 2560×1347.
+- Forward/reverse animation, the 22.5 → 17 hour recalculation, scripted review selection, completed reading holds, native wheel input, snapping, scene buttons, and stage-menu jumps verified.
+- The hands-on workspace starts at 22.5 hours regardless of scripted demo progress. Visitor review updates its model/SQL and still requires a separate explicit output approval.
+- Reduced motion removes the long track and pinning. Scene buttons and keyboard arrows present the completed scenes without animation.
+- No automated WCAG 2 A/AA, WCAG 2.1 AA, or WCAG 2.2 AA violations across the completed mobile demo scenes. Automated checks do not replace a full manual accessibility audit.
 
 Browser tooling is not a production dependency. The website requires none.

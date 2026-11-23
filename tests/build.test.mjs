@@ -17,7 +17,7 @@ test('GitHub Pages project build resolves assets, nested 404s, and metadata unde
   assert.match(html, /src="\/fieldwork-landing\/app\.js"/);
   assert.match(html, /href="\/fieldwork-landing\/styles\.css"/);
   assert.match(html, /href="\/fieldwork-landing\/assets\/fonts\//);
-  assert.match(html, /href="#workflow"/);
+  assert.match(html, /id="start-demo" href="#demo"/);
   assert.match(html, /rel="canonical" href="https:\/\/brandon-ibm\.github\.io\/fieldwork-landing\/"/);
   assert.match(css, /url\('\/fieldwork-landing\/assets\/fonts\//);
   assert.match(config, /src: '\/fieldwork-landing\/assets\/demo\//);
@@ -27,6 +27,8 @@ test('GitHub Pages project build resolves assets, nested 404s, and metadata unde
     assert.match(await readFile(join(output, file), 'utf8'), /https:\/\/brandon-ibm\.github\.io\/fieldwork-landing\//);
   }
   await access(join(output, '.nojekyll'));
+  await access(join(output, 'story.js'));
+  await access(join(output, 'story-timeline.js'));
   for (const file of ['README.md', 'package.json', '.github', 'scripts', 'tests']) {
     await assert.rejects(access(join(output, file)));
   }
