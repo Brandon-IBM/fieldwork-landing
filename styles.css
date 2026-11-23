@@ -959,6 +959,8 @@ html.has-scroll-story{scroll-snap-type:y proximity}
   .story-screen{height:calc(100svh - 120px);min-height:240px}
 }
 @media(max-height:720px) and (max-width:500px){
+  .story-inner{padding-block:6px}
+  .story-copy h2{font-size:22px}
   .story-problem{gap:10px}
   .story-problem .story-body-copy,.story-problem .story-question,.story-problem .story-file-reference{display:none}
   .story-record-count>strong{font-size:34px}
