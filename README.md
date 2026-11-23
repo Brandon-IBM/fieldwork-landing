@@ -22,6 +22,8 @@ The production preview serves `dist/` at **http://localhost:4173**. The local se
 
 ## What the demonstration does
 
+Scroll through the continuous workspace to move from Discover to Model, Build, and Validate. The stage menu stays visible and highlights the section at the reader's position. Clicking a menu item jumps to that section; keyboard navigation and reduced motion preferences are supported. Scrolling does not change review decisions or approve anything.
+
 1. **Discover:** inspect eight fictional Northstar Electric work items and their supporting evidence. The initial duration is 180 hours / 8 items = **22.5 hours**.
 2. **Engineer review:** open **Review metric definition**, review the fictional operating procedure, choose active maintenance time, and approve with a rationale. The corrected definition excludes 44 hours of documented authorized holds: (180 − 44) / 8 = **17 hours**. Engineers can also explicitly retain the elapsed-time definition.
 3. **Model:** inspect entities, fields, the selected formula, and the engineer's decision record.
@@ -31,6 +33,30 @@ The production preview serves `dist/` at **http://localhost:4173**. The local se
 All results are deterministic. State lives only in page memory and resets on reload. Observations, inferences, engineer decisions, and approval status are labeled separately. Nothing invokes an AI model, executes SQL, deploys artifacts, or contacts a customer system.
 
 **Reference limitation:** no `fieldwork-1.0.0.edgeappx`, actual application screenshots, or real demo video was supplied. This interface is an original guided illustration of the capabilities described in the brief, not a verified reproduction of the Edge application. Northstar Electric records, operating procedure, identifiers, schema, SQL, and plans were authored for this public synthetic example. Validate fidelity against the actual application before describing this as its exact interface. No internal Edge code or IBM materials are included. Native Edge AI reviews are mentioned as a product capability and are not simulated.
+
+## GitHub Pages (automatic deployment)
+
+The workflow in `.github/workflows/deploy-pages.yml` runs the tests, builds `dist/`, and deploys it to GitHub Pages on every push to `main`. It also supports manual runs from the repository's **Actions** tab. No extra secrets or package installation are required.
+
+One-time setup:
+
+1. In the GitHub repository, open **Settings → Pages → Build and deployment**.
+2. Set **Source** to **GitHub Actions**.
+3. Push the workflow and site changes to `main`, or run **Deploy GitHub Pages** from **Actions** after the workflow is pushed.
+
+The default address for this repository is **https://brandon-ibm.github.io/fieldwork-landing/**. The workflow reads the Pages configuration to set asset paths and canonical metadata correctly for either the repository URL or a configured custom domain.
+
+To use **edge.fncai.org** with GitHub Pages, configure it under **Settings → Pages → Custom domain**, point the DNS CNAME for `edge` to `brandon-ibm.github.io`, and enable **Enforce HTTPS** after the certificate is ready. Choose one hosting destination for this hostname; the Cloudflare Pages setup below remains available as an alternative.
+
+GitHub Pages does not apply the Cloudflare-specific `_headers` file. The static site itself needs no server configuration.
+
+For a local project-path build, use:
+
+```sh
+SITE_BASE_PATH=/fieldwork-landing SITE_URL=https://brandon-ibm.github.io/fieldwork-landing npm run build
+```
+
+Running `npm run build` without those variables still produces the root-hosted `edge.fncai.org` build used by the normal local preview and Cloudflare Pages.
 
 ## Cloudflare Pages
 
@@ -94,26 +120,28 @@ Local media is simplest. If hosting media elsewhere, use HTTPS and update `media
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | Page structure, navigation, workflow, definition review dialog, optional video slot |
+| `index.html` | Page structure, continuous workflow sections, definition review dialog, optional video slot |
 | `styles.css` | Responsive layout, technical interface, focus states, reduced motion support |
 | `scenario.js` | Public synthetic records, duration calculations, SQL and plan generation |
-| `app.js` | Stage selection, evidence inspection, engineer review, artifact download, approval |
+| `app.js` | Scroll position tracking, stage navigation, evidence inspection, engineer review, artifact download, approval |
 | `config.js` | Optional real video configuration |
-| `assets/` | Original favicon and self-hosted fonts with SIL Open Font Licenses |
+| `assets/` | Blank favicon for text-only branding and self-hosted fonts with SIL Open Font Licenses |
 | `scripts/` | Local server and allowlisted static build |
-| `tests/` | Evidence arithmetic and artifact consistency checks |
+| `.github/workflows/deploy-pages.yml` | Automatic GitHub Pages build and deployment |
+| `tests/` | Evidence arithmetic, artifact consistency, and deployment path checks |
 
 IBM Plex Sans and IBM Plex Mono are distributed under SIL OFL 1.1; see `assets/fonts/OFL-sans.txt` and `OFL-mono.txt`. Fonts are self-hosted and require no Google requests. The site draws on technical interface conventions; it contains no IBM logos and implies no IBM endorsement.
 
 ## Verification
 
-`npm test` verifies the eight records, both metric definitions, and the SQL/plan correction.
+`npm test` verifies the eight records, both metric definitions, the SQL/plan correction, and both root-domain and GitHub project-path builds.
 
 The finished site was checked in headless Chrome using temporary Playwright and axe-core tools outside the project:
 
-- All four stages checked for horizontal overflow at 320, 360, 390, 700, 768, 900, 1024, 1440, and 1920 pixels.
+- All four stages checked for horizontal overflow in both initial and corrected states at 320, 360, 390, 700, 768, 900, 1000, 1024, 1200, 1440, 1600, 1920, and 2560 pixels.
+- Scroll tracking checked in both directions, including mouse wheel input, sticky desktop/mobile menus, keyboard jumps, and preserving keyboard focus during ordinary scrolling.
 - All eight evidence records, the 22.5 → 17 hour correction, model/SQL/plan propagation, both artifact downloads, explicit output approval, approval invalidation, and reset verified.
 - Keyboard modal focus, Escape, focus restoration, and reduced motion checked.
-- No automated WCAG 2 A/AA or WCAG 2.1 AA violations across all four stages and the definition dialog at 390 and 1440 pixels. Automated checks do not replace a full manual accessibility audit.
+- No automated WCAG 2 A/AA or WCAG 2.1 AA violations across the continuous workflow at 390, 1440, and 2560 pixels. Automated checks do not replace a full manual accessibility audit.
 
 Browser tooling is not a production dependency. The website requires none.

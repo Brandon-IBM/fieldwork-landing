@@ -12,7 +12,7 @@
     <meta property="og:description" content="An AI workspace for forward deployed engineers. AI assists. Engineers decide.">
     <meta property="og:url" content="https://edge.fncai.org/">
     <meta name="twitter:card" content="summary">
-    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=2">
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/styles.css">
     <script type="module" src="/app.js"></script>
@@ -21,7 +21,6 @@
     <a class="skip-link" href="#overview">Skip to content</a>
     <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <symbol id="i-mark" viewBox="0 0 24 24"><path d="M4 21V3h16M4 9h12M4 15h8"/></symbol>
         <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
         <symbol id="i-up-right" viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12"/></symbol>
         <symbol id="i-discover" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M7.5 10.5h6m-3-3v6"/></symbol>
@@ -40,7 +39,7 @@
 
     <header class="site-header">
       <div class="site-header-inner page-width">
-        <a class="brand" href="#overview" aria-label="Fieldwork home"><svg class="brand-mark" aria-hidden="true"><use href="#i-mark"/></svg><span>Fieldwork</span></a>
+        <a class="brand" href="#overview" aria-label="Fieldwork home">Fieldwork</a>
         <nav class="site-navigation" aria-label="Main navigation">
           <a href="#overview" class="nav-active">Overview</a>
           <a href="#workflow">Workflow</a>
@@ -51,7 +50,6 @@
 
     <main>
       <section class="hero page-width" id="overview" aria-labelledby="hero-title">
-        <div class="eyebrow hero-eyebrow"><span class="blue-square"></span> FORWARD DEPLOYED ENGINEERING</div>
         <h1 id="hero-title">From problem to plan<span class="blue-period">.</span></h1>
         <div class="hero-bottom">
           <p>An AI workspace for forward deployed engineers.</p>
@@ -62,50 +60,86 @@
         </div>
       </section>
 
-      <section class="preview-section page-width" id="demo" aria-labelledby="preview-title" tabindex="-1">
-        <div class="section-label-row">
-          <h2 class="eyebrow" id="preview-title">THE WORKSPACE</h2>
-          <span class="preview-label"><span class="status-dot"></span> Interactive guided preview</span>
+      <section class="scroll-story" id="workflow" aria-label="Scroll-controlled synthetic product demonstration">
+        <div class="story-pin" id="demo" tabindex="-1">
+          <div class="story-inner page-width">
+            <div class="story-heading">
+              <div class="story-copy"><p class="story-eyebrow" id="story-chapter">01 / 08 · DISCOVER</p><h2 id="story-title">Start with the work.</h2><p class="story-caption" id="story-caption">Northstar Electric needs to understand its maintenance delays.</p></div>
+              <span class="story-scroll-cue" aria-hidden="true">Scroll to play <span>↓</span></span>
+            </div>
+            <div class="story-screen workspace" aria-labelledby="story-title" aria-describedby="story-caption">
+              <div class="workspace-topbar"><div class="workspace-product">Fieldwork <span class="workspace-divider">/</span><span class="workspace-topbar-description">Northstar Electric</span></div><span class="synthetic-badge">SYNTHETIC WALKTHROUGH</span></div>
+              <div class="story-screen-layout">
+                <aside class="story-sidebar" aria-label="Demo workflow stages">
+                  <div class="story-engagement"><strong>Northstar Electric</strong><span>Maintenance operations</span></div>
+                  <div class="story-stage-menu" role="group" aria-label="Jump to a demo stage">
+                    <button class="story-stage is-selected" data-story-stage="discover" aria-current="step"><span>01</span> Discover <svg class="icon" aria-hidden="true"><use href="#i-discover"/></svg></button>
+                    <button class="story-stage" data-story-stage="model"><span>02</span> Model <svg class="icon" aria-hidden="true"><use href="#i-model"/></svg></button>
+                    <button class="story-stage" data-story-stage="build"><span>03</span> Build <svg class="icon" aria-hidden="true"><use href="#i-build"/></svg></button>
+                    <button class="story-stage" data-story-stage="validate"><span>04</span> Validate <svg class="icon" aria-hidden="true"><use href="#i-validate"/></svg></button>
+                  </div>
+                  <p class="story-human-note">AI assists.<br>Engineers decide.</p>
+                </aside>
+                <div class="story-canvas" id="story-canvas"></div>
+              </div>
+              <div class="story-screen-footer"><span>Scripted example. Fixed data. No live AI.</span><span id="story-status">Engagement context</span></div>
+            </div>
+            <div class="story-controls">
+              <div class="story-timeline" role="group" aria-label="Demo scenes">
+                <button class="story-dot is-current" data-story-scene="0" aria-label="Scene 1: Maintenance problem" aria-current="step"><span></span></button>
+                <button class="story-dot" data-story-scene="1" aria-label="Scene 2: Source evidence"><span></span></button>
+                <button class="story-dot" data-story-scene="2" aria-label="Scene 3: Initial metric"><span></span></button>
+                <button class="story-dot" data-story-scene="3" aria-label="Scene 4: Engineer review"><span></span></button>
+                <button class="story-dot" data-story-scene="4" aria-label="Scene 5: Revised metric"><span></span></button>
+                <button class="story-dot" data-story-scene="5" aria-label="Scene 6: Technical model"><span></span></button>
+                <button class="story-dot" data-story-scene="6" aria-label="Scene 7: Implementation artifacts"><span></span></button>
+                <button class="story-dot" data-story-scene="7" aria-label="Scene 8: Validation and handoff"><span></span></button>
+              </div>
+              <div class="story-playback"><button class="icon-button" id="story-prev" aria-label="Previous demo scene" disabled><svg class="icon story-back-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button><span id="story-position">01 / 08</span><button class="icon-button" id="story-next" aria-label="Next demo scene"><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
+              <button class="text-button story-explore" data-open-workspace>Explore yourself <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg></button>
+            </div>
+          </div>
         </div>
+        <div class="story-track" aria-hidden="true"><div class="story-beat"><span></span></div><div class="story-beat"><span></span></div><div class="story-beat"><span></span></div><div class="story-beat"><span></span></div><div class="story-beat"><span></span></div><div class="story-beat"><span></span></div><div class="story-beat"><span></span></div><div class="story-beat"><span></span></div></div>
+        <noscript><p class="noscript-message page-width">Eight synthetic work items total 180 hours. An engineer excludes 44 hours of authorized holds, revising the mean from 22.5 to 17 hours. Enable JavaScript to play the guided demonstration.</p></noscript>
+      </section>
 
-        <div class="workspace">
+      <section class="preview-section page-width interactive-example" id="interactive-example" aria-label="Hands-on synthetic workspace" hidden>
+        <div class="interactive-heading"><h2>Explore the example.</h2><a class="text-button" href="#workflow">Back to demo <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg></a></div>
+        <div class="workspace" id="interactive-workspace" tabindex="-1">
           <div class="workspace-topbar">
-            <div class="workspace-product"><svg class="icon" aria-hidden="true"><use href="#i-mark"/></svg> fieldwork <span class="workspace-divider">/</span><span class="workspace-topbar-description">Engineering workspace</span></div>
+            <div class="workspace-product">Fieldwork <span class="workspace-divider">/</span><span class="workspace-topbar-description">Engineering workspace</span></div>
             <span class="synthetic-badge">SYNTHETIC EXAMPLE</span>
           </div>
           <div class="workspace-layout">
             <aside class="workspace-sidebar" aria-label="Engagement navigation">
+              <div class="sidebar-sticky">
               <div class="engagement-identity"><span class="engagement-avatar">N<span>↗</span></span><div><strong>Northstar Electric</strong><span>Maintenance operations</span></div></div>
-              <div class="sidebar-caption">ENGAGEMENT</div>
+              <div class="sidebar-caption">WORKFLOW <span>Select a stage</span></div>
               <div class="sidebar-stages" role="group" aria-label="Preview stage">
-                <button class="sidebar-stage is-selected" data-stage="discover" aria-pressed="true"><svg class="icon" aria-hidden="true"><use href="#i-discover"/></svg><span>Discover</span><span class="sidebar-stage-number">01</span></button>
+                <button class="sidebar-stage is-selected" data-stage="discover" aria-pressed="true" aria-current="step"><svg class="icon" aria-hidden="true"><use href="#i-discover"/></svg><span>Discover</span><span class="sidebar-stage-number">01</span></button>
                 <button class="sidebar-stage" data-stage="model" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-model"/></svg><span>Model</span><span class="sidebar-stage-number">02</span></button>
                 <button class="sidebar-stage" data-stage="build" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-build"/></svg><span>Build</span><span class="sidebar-stage-number">03</span></button>
                 <button class="sidebar-stage" data-stage="validate" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-validate"/></svg><span>Validate</span><span class="sidebar-stage-number">04</span></button>
               </div>
               <div class="sidebar-bottom"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg><span>Engineer approval<br>at every decision.</span></div>
+              </div>
             </aside>
             <div class="workspace-main">
               <div class="workspace-heading">
-                <div><p class="workspace-breadcrumb">Northstar Electric <span>/</span> Maintenance operations</p><h3>Maintenance delay analysis</h3></div>
+                <div><p class="workspace-breadcrumb">Northstar Electric <span>/</span> Maintenance operations</p><h2>Maintenance delay analysis</h2></div>
                 <span class="engagement-id">ENG—024</span>
               </div>
-              <div id="stage-content"></div>
+              <div id="stage-content">
+                <section class="workflow-stage" id="discover" data-workflow-stage="discover" aria-labelledby="discover-heading" hidden><div data-panel="discover"></div></section>
+                <section class="workflow-stage" id="model" data-workflow-stage="model" aria-labelledby="model-heading" hidden><div data-panel="model"></div></section>
+                <section class="workflow-stage" id="build" data-workflow-stage="build" aria-labelledby="build-heading" hidden><div data-panel="build"></div></section>
+                <section class="workflow-stage" id="validate" data-workflow-stage="validate" aria-labelledby="validate-heading" hidden><div data-panel="validate"></div></section>
+              </div>
               <noscript><div class="noscript-message">This synthetic example reviews eight maintenance work items. Excluding 44 hours of authorized holds changes mean duration from 22.5 to 17 hours. Enable JavaScript to explore the evidence and review the definition.</div></noscript>
             </div>
           </div>
           <div class="workspace-footer"><span><span class="status-dot"></span> Fixed synthetic data. No live AI or production connection.</span><button class="text-button" id="reset-preview">Reset preview <svg class="icon" aria-hidden="true"><use href="#i-reset"/></svg></button></div>
-        </div>
-        <div class="preview-caption"><span>Evidence. Decisions. Reviewable outputs.</span></div>
-      </section>
-
-      <section class="workflow-section page-width" id="workflow" aria-labelledby="workflow-title">
-        <div class="section-label-row"><h2 class="eyebrow" id="workflow-title">THE WORKFLOW</h2><span class="workflow-instruction">Select a stage to explore <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg></span></div>
-        <div class="workflow-grid" role="group" aria-label="Explore workflow stages">
-          <button class="workflow-card is-selected" data-stage="discover" data-scroll="true" aria-pressed="true"><span class="workflow-card-top"><span class="stage-number">01</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span><span class="workflow-name">Discover</span><span class="workflow-description">Find the signal in source evidence.</span><span class="mini-visual mini-table" aria-hidden="true"><span><i></i><i></i><i></i></span><span><i></i><i></i><i></i></span><span><i></i><i></i><i></i></span></span></button>
-          <button class="workflow-card" data-stage="model" data-scroll="true" aria-pressed="false"><span class="workflow-card-top"><span class="stage-number">02</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span><span class="workflow-name">Model</span><span class="workflow-description">Make the technical decisions explicit.</span><span class="mini-visual mini-model" aria-hidden="true"><i></i><b></b><i></i><b></b><i></i></span></button>
-          <button class="workflow-card" data-stage="build" data-scroll="true" aria-pressed="false"><span class="workflow-card-top"><span class="stage-number">03</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span><span class="workflow-name">Build</span><span class="workflow-description">Generate artifacts for engineer review.</span><span class="mini-visual mini-code" aria-hidden="true"><span><em>SELECT</em> work_item_id,</span><span>&nbsp; duration_hours</span><span><em>FROM</em> maintenance;</span></span></button>
-          <button class="workflow-card" data-stage="validate" data-scroll="true" aria-pressed="false"><span class="workflow-card-top"><span class="stage-number">04</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span><span class="workflow-name">Validate</span><span class="workflow-description">Check the work. Approve the outputs.</span><span class="mini-visual mini-checks" aria-hidden="true"><span>✓ <i></i> <small>PASS</small></span><span>✓ <i></i> <small>PASS</small></span><span>✓ <i></i> <small>PASS</small></span></span></button>
         </div>
       </section>
 

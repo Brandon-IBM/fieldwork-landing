@@ -1,13 +1,14 @@
 import { workItems, calculateMetrics, generateSQL, generatePlan } from './scenario.js';
 import { demoVideo } from './config.js';
+import './story.js';
 
 const state = { stage: 'discover', definition: 'elapsed', reviewed: false, rationale: '', selectedId: workItems[0].id, artifact: 'sql', outputApproved: false };
-const content = document.querySelector('#stage-content');
 const dialog = document.querySelector('#review-dialog');
 const reviewForm = document.querySelector('#review-form');
 const announcement = document.querySelector('#announcement');
 const stageNames = { discover: 'Discovery findings', model: 'Technical model', build: 'Implementation artifacts', validate: 'Validation & approval' };
 let reviewOpener = null;
+let reviewStage = 'discover';
 
 const escapeHTML = value => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
 const icon = name => `<svg class="icon" aria-hidden="true"><use href="#i-${name}"/></svg>`;
@@ -15,8 +16,10 @@ const activeDefinition = () => state.definition === 'active';
 const definitionName = () => activeDefinition() ? 'Active maintenance time' : 'Total elapsed time';
 const announce = message => { announcement.textContent = message; };
 
-function toolbar(context) {
-  return `<div class="stage-toolbar"><div class="stage-heading-group"><h4 id="stage-heading" tabindex="-1">${stageNames[state.stage]}</h4><span class="count-badge">${state.stage === 'discover' ? '08 ITEMS' : ({ model: '02 ENTITIES', build: '02 ARTIFACTS', validate: '05 CHECKS' }[state.stage])}</span></div><span class="stage-context">${context}</span></div>`;
+function toolbar(stage, context) {
+  const index = Object.keys(stageNames).indexOf(stage) + 1;
+  const count = { discover: '08 ITEMS', model: '02 ENTITIES', build: '02 ARTIFACTS', validate: '05 CHECKS' }[stage];
+  return `<div class="stage-toolbar"><div class="stage-heading-group"><span class="stage-number">0${index}</span><h3 id="${stage}-heading" tabindex="-1">${stageNames[stage]}</h3><span class="count-badge">${count}</span></div><span class="stage-context">${context}</span></div>`;
 }
 
 function reviewSummary() {
@@ -26,7 +29,7 @@ function reviewSummary() {
 function renderDiscover() {
   const metrics = calculateMetrics(state.definition);
   const selected = workItems.find(item => item.id === state.selectedId);
-  return `${toolbar('Evidence before assumptions')}
+  return `${toolbar('discover', 'Inspect the source evidence')}
     <div class="stage-body discovery-grid">
       <div class="analysis-panel">
         <div class="metric-row"><div class="metric-block"><span class="metric-label">Mean maintenance duration</span><div class="metric-value ${activeDefinition() ? 'metric-revised' : ''}" id="duration-metric">${metrics.mean}<span class="metric-unit">h</span>${activeDefinition() ? '<span class="metric-original">22.5 h</span>' : ''}</div><span class="metric-footnote">${activeDefinition() ? 'Revised · authorized holds excluded' : 'Initial · authorized holds included'}</span></div><div class="metric-block"><span class="metric-label">Work items reviewed</span><div class="metric-value">08<span class="metric-unit">/ 08</span></div><span class="metric-footnote">Completed maintenance records</span></div></div>
@@ -45,7 +48,7 @@ function renderDiscover() {
 }
 
 function renderModel() {
-  return `${toolbar('Decisions made explicit')}
+  return `${toolbar('model', 'Make technical decisions explicit')}
     <div class="stage-body technical-grid"><div>
       <p class="stage-lede">Separate work items from hold events. Keep the duration definition traceable to an engineer decision.</p>
       <div class="model-diagram" role="img" aria-label="Work item entity has one to many authorized hold events, linked by work item ID.">
@@ -68,7 +71,7 @@ function highlightedSQL() {
 }
 
 function renderBuild() {
-  return `${toolbar('Generated for review. Never executed.')}
+  return `${toolbar('build', 'Generate artifacts for engineer review')}
     <div class="stage-body technical-grid"><div>
       <div class="artifact-tabs" role="group" aria-label="Implementation artifacts"><button class="artifact-tab ${state.artifact === 'sql' ? 'is-selected' : ''}" data-artifact="sql" aria-pressed="${state.artifact === 'sql'}">maintenance_duration.sql</button><button class="artifact-tab ${state.artifact === 'plan' ? 'is-selected' : ''}" data-artifact="plan" aria-pressed="${state.artifact === 'plan'}">implementation.md</button></div>
       ${state.artifact === 'sql' ? `<pre class="artifact-code" tabindex="0" aria-label="Generated SQL for human review"><code>${highlightedSQL()}</code></pre>` : `<ol class="plan-list"><li><strong>Confirm source mappings</strong>Map eight completed work items and normalized hold events.</li><li><strong>Review the duration definition</strong>${definitionName()}. ${activeDefinition() ? 'Exclude authorized holds.' : 'Include authorized holds.'}</li><li><strong>Review generated SQL</strong>Confirm the target dialect and non-overlapping hold totals.</li><li><strong>Reconcile and approve</strong>Expect ${calculateMetrics(state.definition).mean} hours across eight items. Obtain engineer approval before external execution.</li></ol>`}
@@ -92,7 +95,7 @@ function renderValidate() {
     { text: 'Generated outputs approved by engineer', pass: state.outputApproved },
   ];
   const passing = checks.filter(check => check.pass).length;
-  return `${toolbar('Local checks on synthetic data')}
+  return `${toolbar('validate', 'Check the work. Approve the outputs.')}
     <div class="stage-body technical-grid"><div>
       <div class="validation-summary">${icon('validate')}<div><strong>${passing} of 5 checks complete</strong><small>${state.outputApproved ? 'Example outputs approved. No execution performed.' : 'Human review closes the loop.'}</small></div></div>
       <ul class="validation-checks">${checks.map(check => `<li class="${check.pass ? '' : 'pending'}">${icon(check.pass ? 'check' : 'lock')}<span>${check.text}</span><span class="check-status ${check.pass ? '' : 'pending'}">${check.pass ? 'PASS' : 'REVIEW'}</span></li>`).join('')}</ul>
@@ -105,28 +108,42 @@ function renderValidate() {
     </aside></div>`;
 }
 
-function render() {
-  content.innerHTML = ({ discover: renderDiscover, model: renderModel, build: renderBuild, validate: renderValidate })[state.stage]();
+function render(stages = Object.keys(stageNames)) {
+  const renderers = { discover: renderDiscover, model: renderModel, build: renderBuild, validate: renderValidate };
+  for (const stage of stages) {
+    document.querySelector(`[data-panel="${stage}"]`).innerHTML = renderers[stage]();
+    document.querySelector(`#${stage}`).hidden = stage !== state.stage;
+  }
+}
+
+function highlightStage(stage) {
+  state.stage = stage;
   document.querySelectorAll('[data-stage]').forEach(button => {
-    const selected = button.dataset.stage === state.stage;
+    const selected = button.dataset.stage === stage;
     button.classList.toggle('is-selected', selected);
     button.setAttribute('aria-pressed', String(selected));
+    if (selected) button.setAttribute('aria-current', 'step');
+    else button.removeAttribute('aria-current');
   });
 }
 
-function setStage(stage, scroll = false) {
+function setStage(stage) {
   if (!Object.hasOwn(stageNames, stage)) return;
-  state.stage = stage;
-  render();
+  highlightStage(stage);
+  document.querySelectorAll('[data-workflow-stage]').forEach(section => { section.hidden = section.dataset.workflowStage !== stage; });
+  document.querySelector('#interactive-workspace').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
+  document.querySelector(`#${stage}-heading`).focus({ preventScroll: true });
   announce(`${stageNames[stage]}. ${state.reviewed ? 'Engineer-reviewed definition.' : 'Duration definition awaiting engineer review.'}`);
-  if (scroll) {
-    document.querySelector('#demo').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
-    document.querySelector('#stage-heading').focus({ preventScroll: true });
-  }
+}
+
+function showWorkspace(stage = 'discover') {
+  document.querySelector('#interactive-example').hidden = false;
+  setStage(stage);
 }
 
 function openReview(opener) {
   reviewOpener = opener;
+  reviewStage = opener.closest('[data-workflow-stage]')?.dataset.workflowStage || 'discover';
   reviewForm.elements.definition.value = state.reviewed ? state.definition : 'active';
   reviewForm.elements.rationale.value = state.rationale || 'Authorized holds pause active maintenance. Exclude documented hold time from this metric.';
   reviewForm.elements.rationale.setCustomValidity('');
@@ -153,10 +170,11 @@ dialog.addEventListener('keydown', containDialogFocus);
 document.addEventListener('click', event => {
   const target = event.target.closest('button');
   if (!target) return;
-  if (target.dataset.stage) setStage(target.dataset.stage, target.dataset.scroll === 'true');
+  if (target.hasAttribute('data-open-workspace')) showWorkspace();
+  else if (target.dataset.stage) setStage(target.dataset.stage);
   else if (target.hasAttribute('data-item')) {
     state.selectedId = target.dataset.item;
-    render();
+    render(['discover']);
     document.querySelector(`[data-item="${state.selectedId}"]`).focus({ preventScroll: true });
     const item = workItems.find(record => record.id === state.selectedId);
     announce(`${item.id}: ${item.elapsed} hours elapsed, ${item.hold} hours of authorized hold. ${item.reason}.`);
@@ -164,12 +182,11 @@ document.addEventListener('click', event => {
   else if (target.hasAttribute('data-close-dialog')) dialog.close();
   else if (target.dataset.artifact) {
     state.artifact = target.dataset.artifact;
-    render();
+    render(['build']);
     document.querySelector(`[data-artifact="${state.artifact}"]`).focus({ preventScroll: true });
     announce(`${state.artifact === 'sql' ? 'Generated SQL' : 'Implementation plan'} displayed.`);
   } else if (target.hasAttribute('data-next-validate')) {
     setStage('validate');
-    document.querySelector('#stage-heading').focus({ preventScroll: true });
   } else if (target.hasAttribute('data-download')) downloadArtifact();
   else if (target.hasAttribute('data-approve-outputs')) openApproval();
 });
@@ -188,7 +205,7 @@ reviewForm.addEventListener('submit', event => {
   state.outputApproved = false;
   dialog.close();
   render();
-  const focusTarget = document.querySelector('[data-review]') || document.querySelector('#stage-heading');
+  const focusTarget = document.querySelector(`#${reviewStage} [data-review]`) || document.querySelector(`#${reviewStage}-heading`);
   focusTarget.focus({ preventScroll: true });
   announce(`Engineer approved ${definitionName().toLowerCase()}. Mean duration is ${calculateMetrics(state.definition).mean} hours.${activeDefinition() ? ' Revised from 22.5 hours, excluding 44 hours of authorized holds.' : ''} Model and artifacts updated. Output approval is required.`);
 });
@@ -207,12 +224,13 @@ dialog.addEventListener('click', event => { if (event.target === dialog) { const
 document.querySelector('#reset-preview').addEventListener('click', () => {
   Object.assign(state, { stage: 'discover', definition: 'elapsed', reviewed: false, rationale: '', selectedId: workItems[0].id, artifact: 'sql', outputApproved: false });
   render();
+  setStage('discover');
   announce('Preview reset. Initial mean duration: 22.5 hours. Engineer reviews cleared.');
 });
 
 document.querySelector('#open-example').addEventListener('click', () => {
-  setStage('discover', true);
-  openReview(document.querySelector('[data-review]'));
+  showWorkspace('discover');
+  openReview(document.querySelector('#discover [data-review]'));
 });
 
 function downloadArtifact() {
@@ -245,11 +263,11 @@ function openApproval() {
     const approved = approvalDialog.returnValue === 'approve';
     if (approved) {
       state.outputApproved = true;
-      render();
+      render(['validate']);
       announce('Engineer approved the synthetic outputs. All five local checks complete. Nothing has been executed or deployed.');
     }
     approvalDialog.remove();
-    (document.querySelector('[data-approve-outputs]') || document.querySelector('#stage-heading')).focus({ preventScroll: true });
+    (document.querySelector('[data-approve-outputs]') || document.querySelector('#validate-heading')).focus({ preventScroll: true });
   }, { once: true });
   approvalDialog.showModal();
 }
